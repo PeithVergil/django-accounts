@@ -1,0 +1,56 @@
+.border-radius(@radius: 5px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+
+.box-shadow(@x: 0; @y: 1px; @blur: 2px; @color: rgba(0,0,0,.05)) {
+  -webkit-box-shadow: @arguments;
+     -moz-box-shadow: @arguments;
+          box-shadow: @arguments;
+}
+
+#widget-box {
+	.border-radius;
+	.box-shadow;
+	background: #fff;
+	max-width: 270px;
+	padding: 15px;
+	margin: 80px auto;
+	border: 1px solid #e5e5e5;
+
+	form {
+		margin: 0;
+
+		.row-fluid {
+			margin-bottom: 15px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.forgot {
+			line-height: 100%;
+
+			a {
+				font-size: 10px;
+			}
+		}
+
+		input[type="text"],
+		input[type="password"] {
+			margin-bottom: 0;
+		}
+
+		ul.errorlist {
+			list-style: none;
+			margin: 0;
+
+			li {
+				color: #ff0000;
+				font-size: 11px;
+			}
+		}
+	}
+}

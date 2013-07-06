@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block head_extras %}
+<link type="text/css" rel="stylesheet/less" href="{% static 'accounts/less/style.less' %}" />
+{% endblock head_extras %}
+
+{% block content %}
+<div class="container">
+
+  <div id="widget-box">
+    <form method="post" action="{% url 'accounts:register' %}">
+      {% csrf_token %}
+
+      <div class="row-fluid">
+        <div class="span6">
+          {{ form.firstname }}
+          {{ form.firstname.errors }}
+        </div>
+        <div class="span6">
+          {{ form.lastname }}
+          {{ form.lastname.errors }}
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div class="span12">
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div class="span12">
+          {{ form.password }}
+          {{ form.password.errors }}
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div class="span8">
+          {{ form.password2 }}
+          {{ form.password2.errors }}
+        </div>
+        <div class="span4">
+          <button class="btn btn-block btn-primary" type="submit">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div> <!-- /container -->
+{% endblock content %}

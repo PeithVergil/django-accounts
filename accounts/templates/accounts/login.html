@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load facebook %}
+{% load staticfiles %}
+
+{% block head_extras %}
+<link type="text/css" rel="stylesheet/less" href="{% static 'less/accounts.less' %}" />
+{% endblock head_extras %}
+
+{% block preheader %}
+  {% facebook_init %}
+{% endblock preheader %}
+
+{% block content %}
+<div class="container">
+
+  <div class="box" id="login-widget">
+    <div class="box-inner">
+
+      {% if messages %}
+        <ul class="unstyled messages">
+          {% for message in messages %}
+            <li class="alert alert-success {% if message.tags %}{{ message.tags }}{% endif %}">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if form.non_field_errors %}
+        <ul class="unstyled errors">
+          {% for error in form.non_field_errors %}
+            <li class="alert alert-error">
+              {{ error }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="row-fluid">
+        <div class="span12">
+          <button id="fb-login" class="btn btn-large btn-block btn-primary">{% trans 'Login with Facebook' %}</button>
+        </div>
+      </div>
+
+      <hr />
+
+      <form method="post" action="{% url 'accounts:login' %}">
+        {% csrf_token %}
+
+        {% if next %}
+          <input type="hidden" id="next" name="next" value="{{ next }}" />
+        {% endif %}
+
+        <div class="row-fluid">
+          <div class="span12">
+            {{ form.username }}
+            {{ form.username.errors }}
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span9">
+            {{ form.password }}
+            {{ form.password.errors }}
+          </div>
+          <div class="span3">
+            <button class="btn btn-block btn-primary" type="submit">Login</button>
+          </div>
+        </div>
+
+        <div class="forgot">
+          <a href="{% url 'accounts:register' %}">{% trans 'Create New Account' %}</a>
+          &middot;
+          <a href="{% url 'accounts:password_reset' %}">{% trans 'Reset Password' %}</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- <div class="box" id="button-widget">
+    <div class="box-inner">
+      
+    </div>
+  </div> -->
+
+</div> <!-- /container -->
+{% endblock content %}
+
+{% block body_extras %}
+  {% facebook_login %}
+{% endblock body_extras %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{% block head_extras %}
+    <link type="text/css" rel="stylesheet/less" href="{% static 'less/accounts.less' %}" />
+{% endblock head_extras %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="box" id="login-widget">
+            <div class="box-inner">
+
+                {% if messages %}
+                    <ul class="unstyled messages">
+                        {% for message in messages %}
+                            <li class="alert alert-success {% if message.tags %}{{ message.tags }}{% endif %}">
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    <ul class="unstyled errors">
+                        {% for error in form.non_field_errors %}
+                            <li class="alert alert-error">
+                                {{ error }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if error %}
+                    <div class="alert alert-error">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h4 id="activation-head">{% trans 'Account Activation' %}</h4>
+                        <p id="activation-body">
+                            {% trans 'Please enter your activation code below, or ' %}
+                            <a href="{% url 'accounts:new_activation' user=newuser.pk %}">
+                                {% trans 'click here ' %}
+                            </a>
+                            {% trans 'to get a new one.' %}
+                        </p>
+                    </div>
+                </div>
+
+                <hr />
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if next %}
+                        <input type="hidden" id="next" name="next" value="{{ next }}" />
+                    {% endif %}
+
+                    <div class="row-fluid">
+                        <div class="span9">
+                            {{ form.code }}
+                            {{ form.code.errors }}
+                        </div>
+                        <div class="span3">
+                            <button class="btn btn-block btn-primary" type="submit">{% trans 'Activate' %}</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div> <!-- /container -->
+{% endblock content %}
